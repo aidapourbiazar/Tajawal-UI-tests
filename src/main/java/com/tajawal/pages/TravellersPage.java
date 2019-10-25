@@ -17,17 +17,18 @@ public class TravellersPage {
 	
 	private DriverUtil driverUtil;
 	
-    private String phoneNUmer= "contact.phoneNumber";
-    private String firstName = "contact.firstName";
-    private String lastName = "contact.lastName";
-    private String emailAddress = "contact.email";
-    private String selectTitle = "contact.title";
-    private String continueButton = "//button[@data-testid ='FlightPAX__ContinueToPaymentButton']";
-    private String firstNameError = "//div[@data-testid ='FlightPAX__Adult1__FirstNameErrorLabel";
-    private String lastNameError = "//div[@data-testid ='FlightPAX__Adult1__LastNameErrorLabel";
-    
+	private By phoneNUmer=By.name("contact.phoneNumber");
+	private By firstName =By.name("contact.firstName");
+	private By lastName = By.name("contact.lastName");
+	private By emailAddress =By.name("contact.email");
+	private By selectTitle =By.name("travellers.0.title");
+	private By continueButton = By.xpath("//button[@data-testid ='FlightPAX__ContinueToPaymentButton']");
+	private By firstNameError = By.xpath("//div[@data-testid ='FlightPAX__Adult1__FirstNameErrorLabel");
+	private By lastNameError = By.xpath("//div[@data-testid ='FlightPAX__Adult1__LastNameErrorLabel");
+    private By travellersIdForm = By.id("travellerDetailsForm");
 	public TravellersPage(DriverUtil driverUtil) throws Exception {
 		this.driverUtil = driverUtil;
+		driverUtil.waitForElementToBeVisible(selectTitle, 30);
 
 	}
 
@@ -41,7 +42,7 @@ public class TravellersPage {
 	}
 
 	public void selectTitle(String title) {
-		WebElement month_dropdown = driverUtil.getElement(By.name(selectTitle));
+		WebElement month_dropdown = driverUtil.getElement(selectTitle);
 		Select month=new Select(month_dropdown);
 		 
 		List<WebElement> dropdown=month.getOptions();
@@ -56,34 +57,34 @@ public class TravellersPage {
 	}
 
 	public void putLastName(String lastname) {
-		driverUtil.getElement(By.name(lastName)).sendKeys(lastname);
+		driverUtil.getElement(lastName).sendKeys(lastname);
 
 	}
 
 	public void putPhoneNumber(String phone) {
-		driverUtil.getElement(By.name(phoneNUmer)).sendKeys(phone);
+		driverUtil.getElement(phoneNUmer).sendKeys(phone);
 		
 	}
 
 	public void putEmailAddress(String email) {
-		driverUtil.getElement(By.name(emailAddress)).sendKeys(email);
+		driverUtil.getElement(emailAddress).sendKeys(email);
 		
 	}
 
 	public void putFirstName(String firstname) {
-		driverUtil.getElement(By.name(firstName)).sendKeys(firstname);
+		driverUtil.getElement(firstName).sendKeys(firstname);
 		
 	}
 	
 	public void goToPayment()  {
-		driverUtil.getElement(By.xpath(continueButton)).click();
-		//return new SelectSeatPage(driverUtil);
+		driverUtil.getElement(continueButton).click();
+		
 	}
 	
 
 	public boolean verifyFirstNameWarningPresent() {
 	    try {
-	    	driverUtil.getElement(By.xpath(firstNameError));
+	    	driverUtil.getElement(firstNameError);
 	        return true;
 	    } catch (org.openqa.selenium.NoSuchElementException e) {
 	        return false;
@@ -92,7 +93,7 @@ public class TravellersPage {
 
 	public boolean verifylastNameWarningPresent() {
 	    try {
-	    	driverUtil.getElement(By.xpath(lastNameError));
+	    	driverUtil.getElement(lastNameError);
 	        return true;
 	    } catch (org.openqa.selenium.NoSuchElementException e) {
 	        return false;
@@ -103,6 +104,12 @@ public class TravellersPage {
 	    
 	    	String url = driverUtil.getUrl();
 	   return url;
+	}
+
+	public void verifyTravellersformPresent() {
+		driverUtil.waitForElementToBeVisible(travellersIdForm, 10);
+
+		
 	}
 	
 

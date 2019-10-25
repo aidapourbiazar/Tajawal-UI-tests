@@ -8,9 +8,15 @@ import java.util.logging.Logger;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
+import com.tajawal.pages.HomePage;
 import com.tajawal.utils.DriverUtil;
 
 /**
@@ -22,7 +28,9 @@ public class BaseTest {
 	protected DriverUtil driverUtil;
 	WebDriver drv;
 	private static final Properties properties = new Properties();
-
+	protected HomePage home;
+	
+	 
 	@BeforeMethod(alwaysRun = true, enabled = true)
 	public void setup() throws Exception {
 		try {
@@ -57,6 +65,13 @@ public class BaseTest {
 			throw e;
 		}
 	}
+	/*
+	@AfterTest
+	public void closeBrowser() throws Exception {
+		driverUtil.quitBrowser();
+		
+	}
+	*/
 	/**
 	 * the method gets the url specified in dev.peroperties file under property src folder of the project
 	 */

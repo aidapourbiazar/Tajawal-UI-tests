@@ -14,72 +14,80 @@ import com.tajawal.utils.DriverUtil;
 public class ResultPage {
 
 	private DriverUtil driverUtil;
-	public static String searchResult = "search-result-leg-card";
-	public String directStop = "stop-0";
 
+	private By searchResult = By.className("search-result-leg-card");
+	private String directStop = "stop-0";
 
+	private By formLabel = By.className("form-check-label");
+	private By primaryButton = By.xpath("//button[contains(@class,'btn-primary')]");
+	private By resultStop = By.xpath("//span[@data-testid = 'FlightSearchResult__Itinerary1__Leg1__StopsLabel']");
 	
 
+	private By sortDropdown = By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[2]/div[2]/div[2]/div/div/button");
+	
+	private By cheapestPrice = By.id("sortBy-price:asc");
+	
+	private By cheapestPriceValue = By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[4]/div/div/div/div[2]/div[2]/div/div[1]/div[2]");
+
+	private By MinPricelabel = By.xpath("//div[contains(@data-testid,'PriceLabel')]");	
+	
 	public ResultPage(DriverUtil driverUtil) throws Exception {
 		this.driverUtil = driverUtil;
-
+		driverUtil.waitForElementToBeVisible(searchResult, 40);
 	}
 
 	
 	
 	public void selectShortStop() throws Exception {
-	
-		driverUtil.getElement(By.className("form-check-label")).click();
+
+		driverUtil.getElement(formLabel).click();
 
 	}
 
 	public TravellersPage selectFlight() throws Exception {
 	
-		driverUtil.getElement(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+		driverUtil.getElement(primaryButton).click();
 	
 	return new TravellersPage(driverUtil);
 	}
 	
 	
 	
-	public String getShortStop() throws Exception {
+	public String getShortStopText() throws Exception {
 	
-		return driverUtil.getElement(By.className("form-check-label")).getText();
+		return driverUtil.getElement(formLabel).getText();
 
 	}
 	
 	public String getResultStopTypes() throws Exception {
 		
-		return driverUtil.getElement(By.xpath("//span[@data-testid = 'FlightSearchResult__Itinerary1__Leg1__StopsLabel']")).getText();
+		return driverUtil.getElement(resultStop).getText();
 
 	}
 	
 
-
-
 	public void sortPrice() throws Exception {
 		getSortDropdown().click();
-	
+		driverUtil.waitForElementToBeVisible(searchResult, 30);
 		verifyCheapestPrice();
 	}
 	
 	public WebElement getSortDropdown() throws Exception {
 
-		return driverUtil.getElement(By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[2]/div[2]/div[2]/div/div/button"));
+		return driverUtil.getElement(sortDropdown);
 
 	}
 	
 	
- 
-		public  boolean verifyCheapestPrice() throws Exception {
+	public  boolean verifyCheapestPrice() throws Exception {
 			
-			return driverUtil.getElement(By.id("sortBy-price:asc")).isSelected();
+			return driverUtil.getElement(cheapestPrice).isSelected();
 
 		}
 		
       public  int getCheapestPriceValue() throws Exception {
 			
-			return Integer.valueOf(driverUtil.getElement(By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[3]/div/div/div/div[2]/div/div/div[1]/div[2]")).getText().replaceAll("[,]", ""));
+			return Integer.valueOf(driverUtil.getElement(cheapestPriceValue).getText().replaceAll("[,]", ""));
 
 		}
 
@@ -87,7 +95,7 @@ public class ResultPage {
 	
       public int getMinPrice() {		
 			
-			List<WebElement> elements = driverUtil.getDriver().findElements(By.xpath("//div[contains(@data-testid,'PriceLabel')]"));
+			List<WebElement> elements = driverUtil.getDriver().findElements(MinPricelabel);
 			List<String> priceList = new ArrayList<String>();
 		
 			for(WebElement element : elements){

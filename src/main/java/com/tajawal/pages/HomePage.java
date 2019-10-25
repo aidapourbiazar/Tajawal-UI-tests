@@ -1,13 +1,14 @@
 package com.tajawal.pages;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.tajawal.utils.DriverUtil;
-import com.tajawal.utils.TestData;
+import com.tajawal.utils.GenerateTestData;
 
 /**
  * The class constructs Home page elements needed for tests
@@ -17,11 +18,14 @@ import com.tajawal.utils.TestData;
 public class HomePage {
 	private DriverUtil driverUtil;
 
-private String FromSearch = "FlightSearchBox__FromAirportInput";
+private By FromSearch = By.xpath("//input[@data-testid = 'FlightSearchBox__FromAirportInput']");
 
-private String option1Search = "//li[@data-testid = 'FlightSearchBox__AirportOption1']";
 
-private String searchButton = "//button[@data-testid = 'FlightSearchBox__SearchButton']";
+private By ToSearch = By.xpath("//input[@data-testid = 'FlightSearchBox__ToAirportInput']");
+
+private By option1Search = By.xpath("//li[@data-testid = 'FlightSearchBox__AirportOption1']");
+
+private By searchButton = By.xpath("//button[@data-testid = 'FlightSearchBox__SearchButton']");
 private String attNameDataId = "data-testid";
 
 	public HomePage(DriverUtil driverUtil) throws Exception {
@@ -34,35 +38,44 @@ private String attNameDataId = "data-testid";
 	 * @return ResultPage
 	 * @throws Exception
 	 */
-	public ResultPage search(String fromInput,String ToInput) throws Exception {
+	public ResultPage searchFlight(String SearchFrom,String ToInput) throws Exception {
 		
-		getPageTag("input", attNameDataId , FromSearch ).sendKeys(fromInput);
+		SearchFrom(SearchFrom);
+
+		driverUtil.getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
 		
-		driverUtil.getDriver().findElement(By.xpath(option1Search)).click();
-		getPageTag("input","placeholder", "Destination").sendKeys(ToInput);
-		Thread.sleep(3000);
-		driverUtil.getDriver().findElement(By.xpath(option1Search)).click();
-		Thread.sleep(3000);
-		driverUtil.getDriver().findElement(By.xpath(searchButton)).click();
+		chooseflightOption();
+		driverUtil.getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
 	
+	
+		searchTo(ToInput);
+		driverUtil.getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
+	
+	
+		chooseflightOption();
+		driverUtil.getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
+
+		clickSubmit();
 
 		return new ResultPage(driverUtil);
 	}
 
-	public WebElement getPageTag(String TagName, String attName, String attValue) throws Exception {
+	private void clickSubmit() {
+		driverUtil.getElement(searchButton).click();	
+	}
 
-		List<WebElement> elements = driverUtil.getDriver().findElements(By.tagName(TagName));
-	    WebElement elementFound=null;
-		for(WebElement element : elements){
-		    if(element.getAttribute(attName).equals(attValue)){
-		        elementFound =element;
-		    }
-		   
-		}
-		return elementFound;
+	public void SearchFrom(String fromInput) {
 
-		}
-	
+		driverUtil.getElement(FromSearch).sendKeys(fromInput);		
+	}
+	public void searchTo(String toInput) {
+		driverUtil.getElement(ToSearch).sendKeys(toInput);
+		
+	}
+	public void chooseflightOption() {
+		driverUtil.getElement(option1Search).click();
+		
+	}
 	
 	
 	

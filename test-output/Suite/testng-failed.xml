@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
-  <test name="Default test(failed)">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <parameter name="browser" value="chrome"/>
+  <test name="Test(failed)">
+    <parameter name="browser" value="chrome"/>
     <classes>
       <class name="com.tajawal.tests.FlightSearchTests">
         <methods>
+          <include name="firstScenario" invocation-numbers="0"/>
+          <include name="closeBrowser"/>
           <include name="setup"/>
           <include name="secondScenario" invocation-numbers="0"/>
         </methods>
       </class> <!-- com.tajawal.tests.FlightSearchTests -->
     </classes>
-  </test> <!-- Default test(failed) -->
-</suite> <!-- Failed suite [Default suite] -->
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

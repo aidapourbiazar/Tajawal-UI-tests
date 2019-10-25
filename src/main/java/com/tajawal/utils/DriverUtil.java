@@ -38,6 +38,15 @@ public class DriverUtil {
 		}
 
 	}
+	
+	public void quitBrowser() throws Exception {
+		try {
+			driver.close();
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 
 	public void goToUrl(String url) throws Exception {
 		try {
@@ -69,14 +78,15 @@ public class DriverUtil {
 
 	
 	
-	public void waitForClassElementToBeVisible(String locator, int timeout) {
 	
-	WebDriverWait wait = new WebDriverWait(driver, timeout); 
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className(locator)));
-
-}
 	
+	public void waitForElementToBeVisible(By locator, int timeout) {
+		
+		WebDriverWait wait = new WebDriverWait(driver, timeout); 
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
+	}
+		
 	public List<WebElement> getElements(By locator) {		
 			
 			List<WebElement> elements = this.driver.findElements(locator);
