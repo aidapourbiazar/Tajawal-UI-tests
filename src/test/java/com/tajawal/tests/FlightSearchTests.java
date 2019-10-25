@@ -68,7 +68,7 @@ public class FlightSearchTests extends BaseTest {
 		initializeTest(language, url);
 		initProperties(language);
 		ResultPage result = home.searchFlight(GenerateTestData.FromInputList(), GenerateTestData.ToInputList());
-		Thread.sleep(3000);
+		
 		result.sortPrice();
 		Assert.assertEquals(result.getMinPrice(), result.getCheapestPriceValue());
 

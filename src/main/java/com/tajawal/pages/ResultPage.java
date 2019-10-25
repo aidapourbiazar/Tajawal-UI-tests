@@ -2,6 +2,7 @@ package com.tajawal.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -27,7 +28,7 @@ public class ResultPage {
 	
 	private By cheapestPrice = By.id("sortBy-price:asc");
 	
-	private By cheapestPriceValue = By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[4]/div/div/div/div[2]/div[2]/div/div[1]/div[2]");
+	private By cheapestPriceValue = By.xpath("//*[@id=\"root\"]/div[2]/div[1]/div[3]/div[3]/div/div/div/div[2]/div/div/div[1]/div[2]");
 
 	private By MinPricelabel = By.xpath("//div[contains(@data-testid,'PriceLabel')]");	
 	
@@ -86,7 +87,7 @@ public class ResultPage {
 		}
 		
       public  int getCheapestPriceValue() throws Exception {
-			
+    	  driverUtil.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			return Integer.valueOf(driverUtil.getElement(cheapestPriceValue).getText().replaceAll("[,]", ""));
 
 		}
